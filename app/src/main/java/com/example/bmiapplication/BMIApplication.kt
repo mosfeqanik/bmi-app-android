@@ -43,7 +43,8 @@ fun BMIApplication(modifier: Modifier = Modifier) {
             onValueChange = { weight = it }, keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Next
-            ))
+            )
+        )
 
         weightHeightField(
             label = "Enter your height (in meter)",
@@ -52,11 +53,19 @@ fun BMIApplication(modifier: Modifier = Modifier) {
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Done
-            ))
+            )
+        )
         Spacer(modifier = Modifier.height(20.dp))
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = {
+            bmi = calculateBmi(
+                weight = weight.toDoubleOrNull() ?: 0.0,
+                height = height.toDoubleOrNull() ?: 0.0
+            )
+        }) {
             Text(text = "Calculate BMI")
         }
+        Spacer(modifier = Modifier.height(20.dp))
+        BmiResultView(result = bmi)
 
     }
 }
@@ -73,7 +82,7 @@ fun BmiResultView(result: String, modifier: Modifier = Modifier) {
 
 fun calculateBmi(weight: Double, height: Double): String {
     val bmi = weight / (height * height)
-    return String.format("%.1f",bmi)
+    return String.format("%.1f", bmi)
 }
 
 @Composable
